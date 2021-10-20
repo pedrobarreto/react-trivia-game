@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import addTokenInStorage from '../utils/localStorage';
 import sendLoginInfo from '../actions';
 import fetchToken from '../services';
 
@@ -11,6 +13,7 @@ class Login extends Component {
     this.state = {
       name: '',
       email: '',
+      redirect: false,
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleClick = this.handleClick.bind(this);
@@ -29,18 +32,17 @@ class Login extends Component {
   }
 
   handleClick() {
-    const { setLoginToStore, history } = this.props;
-    const { name, email } = this.state;
+    const { setLoginToStore } = this.props;
     setLoginToStore(this.state);
-    this.setState({ name, email }, async () => {
-      await fetchToken();
-      history.push('/game-screen');
+    this.setState({ redirect: true }, async () => {
+      const token = await fetchToken();
+      addTokenInStorage(token);
     });
   }
 
   render() {
-    // const { redirect } = this.state;
-    // if (redirect) return <Redirect to="xablau" />;
+    const { redirect } = this.state;
+    if (redirect) return <Redirect to="/game-screen" />;
     return (
       <>
         <input
@@ -76,5 +78,4 @@ export default connect(null, mapDispatchToProps)(Login);
 
 Login.propTypes = {
   setLoginToStore: PropTypes.func.isRequired,
-  history: PropTypes.objectOf(PropTypes.any).isRequired,
 };
