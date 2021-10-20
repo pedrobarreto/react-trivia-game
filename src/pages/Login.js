@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-// import { Redirect } from 'react-router';
 import sendLoginInfo from '../actions';
+import fetchToken from '../services';
 
 class Login extends Component {
   constructor() {
@@ -13,6 +13,7 @@ class Login extends Component {
       email: '',
     };
     this.handleChange = this.handleChange.bind(this);
+    this.handleClick = this.handleClick.bind(this);
   }
 
   handleChange({ target: { name, value } }) {
@@ -28,16 +29,18 @@ class Login extends Component {
   }
 
   handleClick() {
-    const { setLoginToStore } = this.props;
+    const { setLoginToStore, history } = this.props;
+    const { name, email } = this.state;
     setLoginToStore(this.state);
-    // this.setState({
-    //   redirect: true,
-    // });
+    this.setState({ name, email }, async () => {
+      await fetchToken();
+      history.push('/game-screen');
+    });
   }
 
   render() {
     // const { redirect } = this.state;
-    // if (redirect) return <Redirect to="xablau" /> >>>> Se alguém quiser utilizar o redirect, basta descomentar <<<<
+    // if (redirect) return <Redirect to="xablau" />;
     return (
       <>
         <input
@@ -56,6 +59,7 @@ class Login extends Component {
           type="button"
           data-testid="btn-play"
           disabled={ this.enableButton() }
+          onClick={ this.handleClick }
         >
           Jogar
         </button>
@@ -72,4 +76,5 @@ export default connect(null, mapDispatchToProps)(Login);
 
 Login.propTypes = {
   setLoginToStore: PropTypes.func.isRequired,
+  history: PropTypes.objectOf(PropTypes.any).isRequired,
 };
