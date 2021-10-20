@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-// import { Redirect } from 'react-router';
+import addTokenInStorage from '../utils/localStorage';
 import sendLoginInfo from '../actions';
+import fetchToken from '../services';
 
 class Login extends Component {
   constructor() {
@@ -11,8 +13,10 @@ class Login extends Component {
     this.state = {
       name: '',
       email: '',
+      redirect: false,
     };
     this.handleChange = this.handleChange.bind(this);
+    this.handleClick = this.handleClick.bind(this);
   }
 
   handleChange({ target: { name, value } }) {
@@ -30,14 +34,15 @@ class Login extends Component {
   handleClick() {
     const { setLoginToStore } = this.props;
     setLoginToStore(this.state);
-    // this.setState({
-    //   redirect: true,
-    // });
+    this.setState({ redirect: true }, async () => {
+      const token = await fetchToken();
+      addTokenInStorage(token);
+    });
   }
 
   render() {
-    // const { redirect } = this.state;
-    // if (redirect) return <Redirect to="xablau" /> >>>> Se alguém quiser utilizar o redirect, basta descomentar <<<<
+    const { redirect } = this.state;
+    if (redirect) return <Redirect to="/game-screen" />;
     return (
       <>
         <input
@@ -56,6 +61,7 @@ class Login extends Component {
           type="button"
           data-testid="btn-play"
           disabled={ this.enableButton() }
+          onClick={ this.handleClick }
         >
           Jogar
         </button>
