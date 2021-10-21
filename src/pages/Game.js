@@ -1,6 +1,7 @@
 import React from 'react';
 import Header from '../components/Header';
 import { fetchQuestions } from '../services';
+import '../style/game.css';
 
 class Game extends React.Component {
   constructor() {
@@ -8,9 +9,11 @@ class Game extends React.Component {
     this.state = {
       questions: [],
       curQuestion: 0,
+      showAnswers: false,
     };
     this.addingQuestion = this.addingQuestion.bind(this);
     this.shuffleQuestions = this.shuffleQuestions.bind(this);
+    this.handleClick = this.handleClick.bind(this);
   }
 
   componentDidMount() {
@@ -21,6 +24,11 @@ class Game extends React.Component {
     const token = localStorage.getItem('token');
     const questions = await fetchQuestions(token);
     this.setState({ questions });
+  }
+
+  handleClick({ target: { name } }) {
+    console.log(name); // remover
+    this.setState({ showAnswers: true });
   }
 
   shuffleQuestions(array) {
@@ -35,9 +43,30 @@ class Game extends React.Component {
   }
 
   renderButtons(answer, id, correct) {
-    return answer === correct
-      ? <button data-testid="correct-answer" type="button">{answer}</button>
-      : <button data-testid={ `wrong-answer-${id}` } type="button">{answer}</button>;
+    const { showAnswers } = this.state;
+    if (answer === correct) {
+      return (
+        <button
+          data-testid="correct-answer"
+          type="button"
+          name="correct"
+          onClick={ this.handleClick }
+          className={ showAnswers ? 'game-correct' : null }
+        >
+          {answer}
+        </button>
+      );
+    }
+    return (
+      <button
+        data-testid={ `wrong-answer-${id}` }
+        type="button"
+        name="wrong"
+        onClick={ this.handleClick }
+        className={ showAnswers ? 'game-incorrect' : null }
+      >
+        {answer}
+      </button>);
   }
 
   render() {

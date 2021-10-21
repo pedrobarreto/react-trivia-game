@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { addTokenInStorage } from '../utils/localStorage';
@@ -15,7 +16,6 @@ class Login extends Component {
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleClick = this.handleClick.bind(this);
-    this.redirectToConfig = this.redirectToConfig.bind(this);
   }
 
   handleChange({ target: { name, value } }) {
@@ -27,11 +27,6 @@ class Login extends Component {
   enableButton() {
     const { name, email } = this.state;
     return (name.length === 0 || email.length === 0);
-  }
-
-  redirectToConfig() {
-    const { history } = this.props;
-    history.push('/config');
   }
 
   async handleClick() {
@@ -65,13 +60,15 @@ class Login extends Component {
         >
           Jogar
         </button>
-        <button
-          type="button"
-          data-testid="btn-settings"
-          onClick={ this.redirectToConfig }
-        >
-          Configurações
-        </button>
+        <Link to="/settings">
+          <button
+            type="button"
+            data-testid="btn-settings"
+            onClick={ this.redirectToConfig }
+          >
+            Configurações
+          </button>
+        </Link>
       </>
     );
   }
