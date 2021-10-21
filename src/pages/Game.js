@@ -20,12 +20,15 @@ class Game extends React.Component {
       curQuestion: 0,
       showAnswers: false,
       difficulty: 1,
+      next: false,
     };
     this.addingQuestion = this.addingQuestion.bind(this);
     this.shuffleQuestions = this.shuffleQuestions.bind(this);
     this.handleClick = this.handleClick.bind(this);
     this.timer = this.timer.bind(this);
     this.updateTimer = this.updateTimer.bind(this);
+    this.nextQuestion = this.nextQuestion.bind(this);
+    this.nextQuestionButton = this.nextQuestionButton.bind(this);
   }
 
   componentDidMount() {
@@ -35,7 +38,11 @@ class Game extends React.Component {
   async addingQuestion() {
     const token = localStorage.getItem('token');
     const questions = await fetchQuestions(token);
-    this.setState({ questions, difficulty: questions[0].difficulty });
+    this.setState({
+      questions,
+      difficulty: questions[0].difficulty,
+      showAnswers: false,
+      next: false });
   }
 
   handleClick({ target: { name } }) {
@@ -48,7 +55,33 @@ class Game extends React.Component {
       saveScoreInStorage(assertions + 1, score + result);
       updateScore({ score: score + result, assertions: assertions + 1 });
     }
-    this.setState({ showAnswers: true });
+    this.setState({ showAnswers: true, next: true });
+  }
+
+  nextQuestion() {
+    const { next } = this.state;
+    return (
+      <button
+        type="button"
+        onClick={ this.nextQuestionButton }
+        data-testid="btn-next"
+        style={ next ? { display: 'block' } : { display: 'none' } }
+      >
+        Próxima Pergunta
+      </button>
+    );
+  }
+
+  nextQuestionButton() {
+    this.setState((state) => {
+      if (state.questions.length <= state.curQuestion) return;
+      return {
+        curQuestion: state.curQuestion + 1,
+        next: false,
+        showAnswers: false,
+        difficulty: state.questions[state.curQuestion + 1],
+      };
+    });
   }
 
   shuffleQuestions(array) {
@@ -73,7 +106,7 @@ class Game extends React.Component {
       <Countdown
         intervalDelay={ ONE_SECOND }
         date={ Date.now() + TIMER }
-        onComplete={ () => this.setState({ showAnswers: true }) }
+        onComplete={ () => this.setState({ showAnswers: true, next: true }) }
         renderer={ this.updateTimer }
       >
         <span>Tempo acabou</span>
@@ -137,6 +170,7 @@ class Game extends React.Component {
               {this.timer()}
             </div>
           )}
+        { this.nextQuestion() }
       </>
     );
   }
