@@ -1,19 +1,10 @@
 const TOKEN = 'token';
 
-/**
- * Verifica a existência do Token no localStorage.
- * Caso não exista, cria-o.
- * @returns {void}
- */
-const verifyTokenInStorage = () => {
-  if (!localStorage.getItem(TOKEN)) {
-    localStorage.setItem(TOKEN, '');
-  }
-};
-
-const addTokenInStorage = (token) => {
-  verifyTokenInStorage();
+export const addTokenInStorage = (token) => {
   localStorage.setItem(TOKEN, token);
 };
 
-export default addTokenInStorage;
+export const getTokenFromStorage = () => {
+  if (localStorage[TOKEN]) return localStorage[TOKEN];
+  return '';
+};

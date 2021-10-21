@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import addTokenInStorage from '../utils/localStorage';
-import sendLoginInfo from '../actions'; // mudar aqui quando tirar o default
+import { addTokenInStorage } from '../utils/localStorage';
+import { sendLoginInfo as sendLoginInfoAction } from '../actions';
 import fetchToken from '../services';
 
 class Login extends Component {
@@ -35,8 +35,8 @@ class Login extends Component {
   }
 
   async handleClick() {
-    const { setLoginToStore, history } = this.props;
-    setLoginToStore(this.state);
+    const { sendLoginInfo, history } = this.props;
+    sendLoginInfo(this.state);
     const token = await fetchToken();
     addTokenInStorage(token);
     history.push('/game');
@@ -78,12 +78,12 @@ class Login extends Component {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  setLoginToStore: (value) => dispatch(sendLoginInfo(value)),
+  sendLoginInfo: (value) => dispatch(sendLoginInfoAction(value)),
 });
 
 export default connect(null, mapDispatchToProps)(Login);
 
 Login.propTypes = {
-  setLoginToStore: PropTypes.func.isRequired,
+  sendLoginInfo: PropTypes.func.isRequired,
   history: PropTypes.objectOf(PropTypes.any).isRequired,
 };
