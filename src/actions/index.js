@@ -1,10 +1,11 @@
-import types from './types';
-
-const { LOGIN_INFO } = types;
+import { LOGIN_INFO, SET_SCORE } from './types';
 
 export const sendLoginInfo = (payload) => ({
   type: LOGIN_INFO,
   payload,
 });
 
-export const removerEste = false; // Remover esse (apenas para parar error do linter)
+export const setScore = (payload) => ({
+  type: SET_SCORE,
+  payload,
+});

@@ -1,5 +1,2 @@
-const types = {
-  LOGIN_INFO: 'LOGIN_INFO',
-};
-
-export default types;
+export const LOGIN_INFO = 'LOGIN_INFO';
+export const SET_SCORE = 'SET_SCORE';

@@ -1,11 +1,16 @@
 import React from 'react';
-import Countdown, { } from 'react-countdown';
+import { connect } from 'react-redux';
+import Countdown from 'react-countdown';
+import PropTypes from 'prop-types';
 import Header from '../components/Header';
 import { fetchQuestions } from '../services';
+import { saveScoreInStorage } from '../utils/localStorage';
+import { setScore as setScoreAction } from '../actions';
 import '../style/game.css';
 
 const TIMER = 30000;
 const ONE_SECOND = 1000;
+let timer = 0;
 
 class Game extends React.Component {
   constructor() {
@@ -14,11 +19,13 @@ class Game extends React.Component {
       questions: [],
       curQuestion: 0,
       showAnswers: false,
+      difficulty: 1,
     };
     this.addingQuestion = this.addingQuestion.bind(this);
     this.shuffleQuestions = this.shuffleQuestions.bind(this);
     this.handleClick = this.handleClick.bind(this);
     this.timer = this.timer.bind(this);
+    this.updateTimer = this.updateTimer.bind(this);
   }
 
   componentDidMount() {
@@ -28,11 +35,19 @@ class Game extends React.Component {
   async addingQuestion() {
     const token = localStorage.getItem('token');
     const questions = await fetchQuestions(token);
-    this.setState({ questions });
+    this.setState({ questions, difficulty: questions[0].difficulty });
   }
 
   handleClick({ target: { name } }) {
-    console.log(name); // remover
+    const { updateScore, score, assertions } = this.props;
+    const { difficulty } = this.state;
+    const TEN = 10;
+    const points = { hard: 3, medium: 2, easy: 1 };
+    if (name === 'correct') {
+      const result = TEN + (Number(timer) * points[difficulty]);
+      saveScoreInStorage(assertions + 1, score + result);
+      updateScore({ score: score + result, assertions: assertions + 1 });
+    }
     this.setState({ showAnswers: true });
   }
 
@@ -47,15 +62,19 @@ class Game extends React.Component {
     return array;
   }
 
+  updateTimer(props) {
+    const { seconds } = props;
+    timer = seconds;
+    return (<div>{seconds}</div>);
+  }
+
   timer() {
     return (
       <Countdown
+        intervalDelay={ ONE_SECOND }
         date={ Date.now() + TIMER }
-        // intervalDelay={ TIMER }
         onComplete={ () => this.setState({ showAnswers: true }) }
-        // zeroPadTime={ 1 }
-        // precision={ 4 }
-        renderer={ (props) => <div>{props.total / ONE_SECOND }</div> }
+        renderer={ this.updateTimer }
       >
         <span>Tempo acabou</span>
       </Countdown>
@@ -67,6 +86,7 @@ class Game extends React.Component {
     if (answer === correct) {
       return (
         <button
+          key={ id }
           data-testid="correct-answer"
           type="button"
           name="correct"
@@ -80,6 +100,7 @@ class Game extends React.Component {
     }
     return (
       <button
+        key={ id }
         data-testid={ `wrong-answer-${id}` }
         type="button"
         name="wrong"
@@ -121,4 +142,19 @@ class Game extends React.Component {
   }
 }
 
-export default Game;
+const mapDispatchToProps = (dispatch) => ({
+  updateScore: (score) => dispatch(setScoreAction(score)),
+});
+
+const mapStateToProps = ({ user }) => ({
+  score: user.score,
+  assertions: user.assertions,
+});
+
+Game.propTypes = {
+  updateScore: PropTypes.func.isRequired,
+  score: PropTypes.number.isRequired,
+  assertions: PropTypes.number.isRequired,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Game);

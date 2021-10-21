@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { addTokenInStorage } from '../utils/localStorage';
+import { addTokenInStorage, saveScoreInStorage } from '../utils/localStorage';
 import { sendLoginInfo as sendLoginInfoAction } from '../actions';
 import { fetchToken } from '../services';
 
@@ -34,6 +34,7 @@ class Login extends Component {
     sendLoginInfo(this.state);
     const token = await fetchToken();
     addTokenInStorage(token);
+    saveScoreInStorage(0, 0);
     history.push('/game');
   }
 
