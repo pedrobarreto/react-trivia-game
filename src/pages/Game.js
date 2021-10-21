@@ -7,7 +7,6 @@ import { fetchQuestions } from '../services';
 import { saveScoreInStorage } from '../utils/localStorage';
 import { setScore as setScoreAction } from '../actions';
 import '../style/game.css';
-import { getByDisplayValue } from '@testing-library/dom';
 
 const TIMER = 30000;
 const ONE_SECOND = 1000;
