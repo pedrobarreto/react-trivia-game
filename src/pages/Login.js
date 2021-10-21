@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-import { Redirect } from 'react-router';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import addTokenInStorage from '../utils/localStorage';
-import sendLoginInfo from '../actions';
+import sendLoginInfo from '../actions'; // mudar aqui quando tirar o default
 import fetchToken from '../services';
 
 class Login extends Component {
@@ -13,10 +12,10 @@ class Login extends Component {
     this.state = {
       name: '',
       email: '',
-      redirect: false,
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleClick = this.handleClick.bind(this);
+    this.redirectToConfig = this.redirectToConfig.bind(this);
   }
 
   handleChange({ target: { name, value } }) {
@@ -27,22 +26,23 @@ class Login extends Component {
 
   enableButton() {
     const { name, email } = this.state;
-    if (name.length === 0 || email.length === 0) return true;
-    return false;
+    return (name.length === 0 || email.length === 0);
   }
 
-  handleClick() {
-    const { setLoginToStore } = this.props;
+  redirectToConfig() {
+    const { history } = this.props;
+    history.push('/config');
+  }
+
+  async handleClick() {
+    const { setLoginToStore, history } = this.props;
     setLoginToStore(this.state);
-    this.setState({ redirect: true }, async () => {
-      const token = await fetchToken();
-      addTokenInStorage(token);
-    });
+    const token = await fetchToken();
+    addTokenInStorage(token);
+    history.push('/game');
   }
 
   render() {
-    const { redirect } = this.state;
-    if (redirect) return <Redirect to="/game-screen" />;
     return (
       <>
         <input
@@ -65,6 +65,13 @@ class Login extends Component {
         >
           Jogar
         </button>
+        <button
+          type="button"
+          data-testid="btn-settings"
+          onClick={ this.redirectToConfig }
+        >
+          Configurações
+        </button>
       </>
     );
   }
@@ -78,4 +85,5 @@ export default connect(null, mapDispatchToProps)(Login);
 
 Login.propTypes = {
   setLoginToStore: PropTypes.func.isRequired,
+  history: PropTypes.objectOf(PropTypes.any).isRequired,
 };

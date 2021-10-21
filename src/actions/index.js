@@ -7,4 +7,4 @@ const sendLoginInfo = (payload) => ({
   payload,
 });
 
-export default sendLoginInfo; // Após criada outra action, faça o export individual
+export default sendLoginInfo; // Após criada outra action, faça o export individual remover o default quando criar outra action
