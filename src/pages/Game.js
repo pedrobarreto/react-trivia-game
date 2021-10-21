@@ -1,7 +1,11 @@
 import React from 'react';
+import Countdown, { } from 'react-countdown';
 import Header from '../components/Header';
 import { fetchQuestions } from '../services';
 import '../style/game.css';
+
+const TIMER = 30000;
+const ONE_SECOND = 1000;
 
 class Game extends React.Component {
   constructor() {
@@ -14,6 +18,7 @@ class Game extends React.Component {
     this.addingQuestion = this.addingQuestion.bind(this);
     this.shuffleQuestions = this.shuffleQuestions.bind(this);
     this.handleClick = this.handleClick.bind(this);
+    this.timer = this.timer.bind(this);
   }
 
   componentDidMount() {
@@ -42,6 +47,21 @@ class Game extends React.Component {
     return array;
   }
 
+  timer() {
+    return (
+      <Countdown
+        date={ Date.now() + TIMER }
+        // intervalDelay={ TIMER }
+        onComplete={ () => this.setState({ showAnswers: true }) }
+        // zeroPadTime={ 1 }
+        // precision={ 4 }
+        renderer={ (props) => <div>{props.total / ONE_SECOND }</div> }
+      >
+        <span>Tempo acabou</span>
+      </Countdown>
+    );
+  }
+
   renderButtons(answer, id, correct) {
     const { showAnswers } = this.state;
     if (answer === correct) {
@@ -52,6 +72,7 @@ class Game extends React.Component {
           name="correct"
           onClick={ this.handleClick }
           className={ showAnswers ? 'game-correct' : null }
+          disabled={ showAnswers }
         >
           {answer}
         </button>
@@ -64,6 +85,7 @@ class Game extends React.Component {
         name="wrong"
         onClick={ this.handleClick }
         className={ showAnswers ? 'game-incorrect' : null }
+        disabled={ showAnswers }
       >
         {answer}
       </button>);
@@ -79,16 +101,19 @@ class Game extends React.Component {
           ? null
           : (
             <div>
-              <p data-testid="question-category">{result.category}</p>
-              <p data-testid="question-text">{result.question}</p>
-              {
-                this.shuffleQuestions([
-                  result.correct_answer,
-                  ...result.incorrect_answers,
-                ]).map((answer, id) => (
-                  this.renderButtons(answer, id, result.correct_answer)
-                ))
-              }
+              <div>
+                <p data-testid="question-category">{result.category}</p>
+                <p data-testid="question-text">{result.question}</p>
+                {
+                  this.shuffleQuestions([
+                    result.correct_answer,
+                    ...result.incorrect_answers,
+                  ]).map((answer, id) => (
+                    this.renderButtons(answer, id, result.correct_answer)
+                  ))
+                }
+              </div>
+              {this.timer()}
             </div>
           )}
       </>
