@@ -7,23 +7,20 @@ class Game extends React.Component {
     super();
     this.state = {
       questions: [],
+      curQuestion: 0,
     };
     this.addingQuestion = this.addingQuestion.bind(this);
+    this.shuffleQuestions = this.shuffleQuestions.bind(this);
   }
 
   componentDidMount() {
     this.addingQuestion();
   }
 
-  addingQuestion() {
-    const { state } = this;
-    this.setState({ ...state }, async () => {
-      const token = localStorage.getItem('token');
-      const questions = await fetchQuestions(token);
-      this.setState({
-        questions,
-      });
-    });
+  async addingQuestion() {
+    const token = localStorage.getItem('token');
+    const questions = await fetchQuestions(token);
+    this.setState({ questions });
   }
 
   shuffleQuestions(array) {
@@ -44,26 +41,27 @@ class Game extends React.Component {
   }
 
   render() {
-    const { questions: { results } } = this.state;
+    const { questions, curQuestion } = this.state;
+    const result = questions[curQuestion];
     return (
       <>
         <Header />
-        {!results
+        {questions.length === 0
           ? null
-          : results.map((result, index) => (
-            <div key={ index }>
+          : (
+            <div>
               <p data-testid="question-category">{result.category}</p>
               <p data-testid="question-text">{result.question}</p>
               {
                 this.shuffleQuestions([
-                  results.correct_answer,
-                  ...results.incorrect_answers,
+                  result.correct_answer,
+                  ...result.incorrect_answers,
                 ]).map((answer, id) => (
-                  this.renderButtons(answer, id, results.correct_answer)
+                  this.renderButtons(answer, id, result.correct_answer)
                 ))
               }
             </div>
-          ))}
+          )}
       </>
     );
   }
