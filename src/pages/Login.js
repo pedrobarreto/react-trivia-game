@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { addTokenInStorage } from '../utils/localStorage';
 import { sendLoginInfo as sendLoginInfoAction } from '../actions';
-import fetchToken from '../services';
+import { fetchToken } from '../services';
 
 class Login extends Component {
   constructor() {
