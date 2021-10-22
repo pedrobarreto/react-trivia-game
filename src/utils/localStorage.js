@@ -30,7 +30,8 @@ export function generateInfos() {
     name,
     email,
     score,
+    assertions,
   } } = JSON.parse(localStorage.getItem('state'));
   const hash = md5(email).toString();
-  return { name, score, hash };
+  return { name, score, hash, assertions };
 }
