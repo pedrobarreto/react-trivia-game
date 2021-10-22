@@ -37,6 +37,9 @@ class Game extends React.Component {
   }
 
   async addingQuestion() {
+    const { updateScore } = this.props;
+    saveScoreInStorage();
+    updateScore({ score: 0, assertions: 0 });
     const token = localStorage.getItem('token');
     const result = await fetchQuestions(token);
     const questions = result.map((cur) => {
