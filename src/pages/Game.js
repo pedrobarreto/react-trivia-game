@@ -147,7 +147,9 @@ class Game extends React.Component {
 
   render() {
     const { questions, curQuestion } = this.state;
+    // const { history } = this.props;
     const result = questions[curQuestion];
+    // if (questions && curQuestion === questions.length) history.push('/feedback');
     return (
       <>
         <Header />
