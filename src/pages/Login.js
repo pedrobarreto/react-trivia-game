@@ -34,7 +34,7 @@ class Login extends Component {
     sendLoginInfo(this.state);
     const token = await fetchToken();
     addTokenInStorage(token);
-    saveScoreInStorage(0, 0);
+    saveScoreInStorage();
     history.push('/game');
   }
 
