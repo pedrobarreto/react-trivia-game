@@ -93,6 +93,7 @@ class Game extends React.Component {
         next: false,
         showAnswers: false,
         difficulty: state.questions[state.curQuestion + 1].difficulty,
+        startCountdown: true,
       };
     });
   }
