@@ -3,6 +3,7 @@ import store from '../store';
 
 const TOKEN = 'token';
 const STATE = 'state';
+const RANKING = 'ranking';
 
 export const addTokenInStorage = (token) => {
   localStorage.setItem(TOKEN, token);
@@ -34,4 +35,21 @@ export function generateInfos() {
   } } = JSON.parse(localStorage.getItem('state'));
   const hash = md5(email).toString();
   return { name, score, hash, assertions };
+}
+
+export function addRanking(name, score, picture) {
+  if (localStorage[RANKING].length > 0) {
+    const array = JSON.parse(localStorage[RANKING]);
+    array.push({ name, score, picture });
+    localStorage[RANKING] = array;
+  } else {
+    localStorage.setItem(RANKING, JSON.stringify([{ name, score, picture }]));
+  }
+}
+
+export function getRankings() {
+  if (localStorage[RANKING].length > 0) {
+    return JSON.parse(localStorage[RANKING]);
+  }
+  return [];
 }
