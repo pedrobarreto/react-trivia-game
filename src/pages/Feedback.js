@@ -1,15 +1,30 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import Header from '../components/Header';
-import { generateInfos } from '../utils/localStorage';
+
+const AVERAGE = 3;
 
 class Feedback extends React.Component {
+  lowScore() {
+    return (
+      <span data-testid="feedback-text">Podia ser melhor...</span>
+    );
+  }
+
+  highScore() {
+    return (
+      <span data-testid="feedback-text">Mandou bem!</span>
+    );
+  }
+
   render() {
-    const { score, assertions } = generateInfos();
+    const { score, assertions } = this.props;
     return (
       <div>
         <Header />
-        <span data-testid="feedback-text">Voce foi horrivel</span>
+        { assertions < AVERAGE ? this.lowScore() : this.highScore() }
         <Link to="/">
           <button data-testid="btn-play-again" type="button">
             Jogar novamente
@@ -22,4 +37,14 @@ class Feedback extends React.Component {
   }
 }
 
-export default Feedback;
+const mapStateToProps = ({ user }) => ({
+  assertions: user.assertions,
+  score: user.score,
+});
+
+export default connect(mapStateToProps, null)(Feedback);
+
+Feedback.propTypes = {
+  assertions: PropTypes.number.isRequired,
+  score: PropTypes.number.isRequired,
+};
