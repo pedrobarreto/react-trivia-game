@@ -21,6 +21,7 @@ class Game extends React.Component {
       showAnswers: false,
       difficulty: 1,
       next: false,
+      startCountdown: false,
     };
     this.addingQuestion = this.addingQuestion.bind(this);
     this.shuffleQuestions = this.shuffleQuestions.bind(this);
@@ -28,7 +29,7 @@ class Game extends React.Component {
     this.timer = this.timer.bind(this);
     this.updateTimer = this.updateTimer.bind(this);
     this.nextQuestion = this.nextQuestion.bind(this);
-    this.nextQuestionButton = this.nextQuestionButton.bind(this);
+    this.nextQuestionState = this.nextQuestionState.bind(this);
   }
 
   componentDidMount() {
@@ -37,12 +38,20 @@ class Game extends React.Component {
 
   async addingQuestion() {
     const token = localStorage.getItem('token');
-    const questions = await fetchQuestions(token);
+    const result = await fetchQuestions(token);
+    const questions = result.map((cur) => {
+      const res = { ...cur };
+      res.alternatives = this.shuffleQuestions(
+        [cur.correct_answer, ...cur.incorrect_answers],
+      );
+      return res;
+    });
     this.setState({
       questions,
       difficulty: questions[0].difficulty,
       showAnswers: false,
-      next: false });
+      next: false,
+      startCountdown: true });
   }
 
   handleClick({ target: { name } }) {
@@ -55,7 +64,7 @@ class Game extends React.Component {
       saveScoreInStorage(assertions + 1, score + result);
       updateScore({ score: score + result, assertions: assertions + 1 });
     }
-    this.setState({ showAnswers: true, next: true });
+    this.setState({ showAnswers: true, next: true, startCountdown: false });
   }
 
   nextQuestion() {
@@ -63,7 +72,7 @@ class Game extends React.Component {
     return (
       <button
         type="button"
-        onClick={ this.nextQuestionButton }
+        onClick={ this.nextQuestionState }
         data-testid="btn-next"
         style={ next ? { display: 'block' } : { display: 'none' } }
       >
@@ -72,19 +81,26 @@ class Game extends React.Component {
     );
   }
 
-  nextQuestionButton() {
+  nextQuestionState() {
+    const { history } = this.props;
     this.setState((state) => {
-      if (state.questions.length <= state.curQuestion) return;
+      if (state.questions.length <= state.curQuestion + 1) {
+        history.push('/feedback');
+        return;
+      }
       return {
         curQuestion: state.curQuestion + 1,
         next: false,
         showAnswers: false,
-        difficulty: state.questions[state.curQuestion + 1],
+        difficulty: state.questions[state.curQuestion + 1].difficulty,
+        startCountdown: true,
       };
     });
   }
 
   shuffleQuestions(array) {
+    const { showAnswers } = this.state;
+    if (showAnswers) return array;
     for (let i = array.length - 1; i > 0; i -= 1) {
       const random = Math.round(Math.random() * (i));
       const arrayIndex = array[i];
@@ -96,9 +112,12 @@ class Game extends React.Component {
   }
 
   updateTimer(props) {
+    const { startCountdown } = this.state;
     const { seconds } = props;
-    timer = seconds;
-    return (<div>{seconds}</div>);
+    if (startCountdown) {
+      timer = seconds;
+    }
+    return (<div>{timer}</div>);
   }
 
   timer() {
@@ -147,13 +166,11 @@ class Game extends React.Component {
 
   render() {
     const { questions, curQuestion } = this.state;
-    // const { history } = this.props;
     const result = questions[curQuestion];
-    // if (questions && curQuestion === questions.length) history.push('/feedback');
     return (
       <>
         <Header />
-        {questions.length === 0
+        {questions.length === 0 || curQuestion - 1 >= questions.length
           ? null
           : (
             <div>
@@ -161,10 +178,7 @@ class Game extends React.Component {
                 <p data-testid="question-category">{result.category}</p>
                 <p data-testid="question-text">{result.question}</p>
                 {
-                  this.shuffleQuestions([
-                    result.correct_answer,
-                    ...result.incorrect_answers,
-                  ]).map((answer, id) => (
+                  result.alternatives.map((answer, id) => (
                     this.renderButtons(answer, id, result.correct_answer)
                   ))
                 }
@@ -191,6 +205,7 @@ Game.propTypes = {
   updateScore: PropTypes.func.isRequired,
   score: PropTypes.number.isRequired,
   assertions: PropTypes.number.isRequired,
+  history: PropTypes.objectOf(PropTypes.any).isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Game);

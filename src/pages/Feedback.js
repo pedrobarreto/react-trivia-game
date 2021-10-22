@@ -1,9 +1,14 @@
 import React from 'react';
-import FeedbackHeader from '../components/FeedbackHeader';
+import Header from '../components/Header';
 
 class Feedback extends React.Component {
   render() {
-    return <FeedbackHeader />;
+    return (
+      <div>
+        <Header />
+        <span data-testid="feedback-text">Voce foi horrivel</span>
+      </div>
+    );
   }
 }
 

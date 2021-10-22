@@ -1,3 +1,4 @@
+import md5 from 'crypto-js/md5';
 import store from '../store';
 
 const TOKEN = 'token';
@@ -23,3 +24,13 @@ export const saveScoreInStorage = (assertions = 0, score = 0) => {
     player: { name, email, assertions, score },
   }));
 };
+
+export function generateInfos() {
+  const { player: {
+    name,
+    email,
+    score,
+  } } = JSON.parse(localStorage.getItem('state'));
+  const hash = md5(email).toString();
+  return { name, score, hash };
+}
