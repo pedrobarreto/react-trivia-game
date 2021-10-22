@@ -38,18 +38,20 @@ export function generateInfos() {
 }
 
 export function addRanking(name, score, picture) {
-  if (localStorage[RANKING].length > 0) {
+  if (localStorage[RANKING]) {
     const array = JSON.parse(localStorage[RANKING]);
     array.push({ name, score, picture });
-    localStorage[RANKING] = array;
+    localStorage[RANKING] = JSON.stringify(array);
   } else {
     localStorage.setItem(RANKING, JSON.stringify([{ name, score, picture }]));
   }
 }
 
 export function getRankings() {
-  if (localStorage[RANKING].length > 0) {
-    return JSON.parse(localStorage[RANKING]);
+  if (localStorage[RANKING]) {
+    const array = JSON.parse(localStorage[RANKING]);
+    array.sort(({ score: a }, { score: b }) => b - a);
+    return array;
   }
   return [];
 }

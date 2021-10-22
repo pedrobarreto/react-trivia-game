@@ -4,7 +4,7 @@ import Countdown from 'react-countdown';
 import PropTypes from 'prop-types';
 import Header from '../components/Header';
 import { fetchQuestions } from '../services';
-import { saveScoreInStorage } from '../utils/localStorage';
+import { saveScoreInStorage, addRanking, generateInfos } from '../utils/localStorage';
 import { setScore as setScoreAction } from '../actions';
 import '../style/game.css';
 
@@ -85,7 +85,11 @@ class Game extends React.Component {
     const { history } = this.props;
     this.setState((state) => {
       if (state.questions.length <= state.curQuestion + 1) {
+        const { hash, name, score } = generateInfos();
+        const picture = `https://www.gravatar.com/avatar/${hash}`;
+        addRanking(name, score, picture);
         history.push('/feedback');
+
         return;
       }
       return {
