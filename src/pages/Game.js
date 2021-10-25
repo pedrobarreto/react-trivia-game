@@ -30,6 +30,7 @@ class Game extends React.Component {
     this.updateTimer = this.updateTimer.bind(this);
     this.nextQuestion = this.nextQuestion.bind(this);
     this.nextQuestionState = this.nextQuestionState.bind(this);
+    this.formatText = this.formatText.bind(this);
   }
 
   componentDidMount() {
@@ -68,6 +69,16 @@ class Game extends React.Component {
       updateScore({ score: score + result, assertions: assertions + 1 });
     }
     this.setState({ showAnswers: true, next: true, startCountdown: false });
+  }
+
+  formatText(string) {
+    // função do Lucas Rodrigues Turma 08
+    // encodeURIComponent faz tudo oq nao é letra e numero ficar no formato Percent Encoding ex: ' ' = %20
+    // referencia https://www.w3schools.com/tags/ref_urlencode.ASP
+    // unescape faz o Percent Encoding virar caracteres
+    // https://www.geeksforgeeks.org/javascript-unescape/#:~:text=The%20unescape()%20function%20in,when%20decoded%20via%20unescape().
+    const stringUTF = unescape(encodeURIComponent(string));
+    return stringUTF.replace(/&quot;|&#039;/gi, '\'');
   }
 
   nextQuestion() {
@@ -153,7 +164,7 @@ class Game extends React.Component {
           className={ showAnswers ? 'game-correct' : null }
           disabled={ showAnswers }
         >
-          {answer}
+          {this.formatText(answer)}
         </button>
       );
     }
@@ -167,7 +178,7 @@ class Game extends React.Component {
         className={ showAnswers ? 'game-incorrect' : null }
         disabled={ showAnswers }
       >
-        {answer}
+        {this.formatText(answer)}
       </button>);
   }
 
@@ -183,7 +194,7 @@ class Game extends React.Component {
             <div>
               <div>
                 <p data-testid="question-category">{result.category}</p>
-                <p data-testid="question-text">{result.question}</p>
+                <p data-testid="question-text">{this.formatText(result.question)}</p>
                 {
                   result.alternatives.map((answer, id) => (
                     this.renderButtons(answer, id, result.correct_answer)
