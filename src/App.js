@@ -6,6 +6,7 @@ import Feedback from './pages/Feedback';
 import Game from './pages/Game';
 import Login from './pages/Login';
 import test from './pages/teste';
+import About from './pages/About';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
       <Route exact path="/feedback" component={ Feedback } />
       <Route exact path="/ranking" component={ Ranking } />
       <Route exact path="/teste" component={test} />
+      <Route exact path="/about" component={ About } />
     </Switch>
   );
 }
