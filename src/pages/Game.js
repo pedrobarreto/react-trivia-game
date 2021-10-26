@@ -38,11 +38,14 @@ class Game extends React.Component {
   }
 
   async addingQuestion() {
-    const { updateScore } = this.props;
+    const { updateScore, amount, difficulty, type, category } = this.props;
+    const difficultyRes = difficulty === 'Todas' ? '' : difficulty;
+    const categoryRes = category == 0 ? '' : category;
+    const typeRes = type === 'Todos' ? '' : type;
     saveScoreInStorage();
     updateScore({ score: 0, assertions: 0 });
     const token = localStorage.getItem('token');
-    const result = await fetchQuestions(token);
+    const result = await fetchQuestions(token, amount, categoryRes, difficultyRes, typeRes);
     const questions = result.map((cur) => {
       const res = { ...cur };
       res.alternatives = this.shuffleQuestions(
@@ -214,9 +217,13 @@ const mapDispatchToProps = (dispatch) => ({
   updateScore: (score) => dispatch(setScoreAction(score)),
 });
 
-const mapStateToProps = ({ user }) => ({
+const mapStateToProps = ({ user, settings: { amount, difficulty, category, type } }) => ({
   score: user.score,
   assertions: user.assertions,
+  amount,
+  difficulty,
+  category,
+  type,
 });
 
 Game.propTypes = {
@@ -224,6 +231,10 @@ Game.propTypes = {
   score: PropTypes.number.isRequired,
   assertions: PropTypes.number.isRequired,
   history: PropTypes.objectOf(PropTypes.any).isRequired,
+  amount: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+  difficulty: PropTypes.string.isRequired,
+  category: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+  type: PropTypes.string.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Game);
