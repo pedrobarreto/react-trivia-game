@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import { generateInfos } from '../utils/localStorage';
 import { Popover, Transition } from '@headlessui/react'
-import { UsersIcon, MenuIcon, PresentationChartLineIcon, XIcon } from '@heroicons/react/outline';
+import { UsersIcon, MenuIcon, PresentationChartLineIcon, XIcon, CheckCircleIcon } from '@heroicons/react/outline';
 import { ChevronDownIcon } from '@heroicons/react/solid';
 import logo from '../trivia.png';
 
@@ -11,7 +11,7 @@ function classNames(...classes) {
 
 class Header extends React.Component {
   render() {
-    const { name, score, hash } = generateInfos();
+    const { name, score, hash, assertions } = generateInfos();
     return (
       <Popover className="relative bg-white">
         <header className="max-w-7xl mx-auto px-4 sm:px-6">
@@ -116,6 +116,12 @@ class Header extends React.Component {
                                 <p className="text-base font-medium text-gray-900">{score}</p>
                               </div>
                             </div>
+                            <div className="-m-3 p-3 flex items-start rounded-lg hover:bg-gray-50">
+                              <CheckCircleIcon className="flex-shrink-0 h-6 w-6 text-indigo-600" aria-hidden="true" />
+                              <div className="ml-4">
+                                <p className="text-base font-medium text-gray-900">{assertions}</p>
+                              </div>
+                            </div>
                           </div>
                         </div>
                       </Popover.Panel>
@@ -171,6 +177,10 @@ class Header extends React.Component {
                     <div className="-m-3 p-3 flex items-center rounded-md hover:bg-gray-50">
                       <PresentationChartLineIcon className="flex-shrink-0 h-6 w-6 text-indigo-600" aria-hidden="true" />
                       <span className="ml-3 text-base font-medium text-gray-900">{score}</span>
+                    </div>
+                    <div className="-m-3 p-3 flex items-center rounded-md hover:bg-gray-50">
+                      <CheckCircleIcon className="flex-shrink-0 h-6 w-6 text-indigo-600" aria-hidden="true" />
+                      <span className="ml-3 text-base font-medium text-gray-900">{assertions}</span>
                     </div>
                   </nav>
                 </div>
