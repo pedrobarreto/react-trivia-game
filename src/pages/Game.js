@@ -4,6 +4,7 @@ import Countdown from 'react-countdown';
 import PropTypes from 'prop-types';
 import Header from '../components/Header';
 import { fetchQuestions } from '../services';
+import { ArrowRightIcon } from '@heroicons/react/outline';
 import { saveScoreInStorage, addRanking, generateInfos } from '../utils/localStorage';
 import { setScore as setScoreAction } from '../actions';
 import '../style/game.css';
@@ -11,6 +12,10 @@ import '../style/game.css';
 const TIMER = 30000;
 const ONE_SECOND = 1000;
 let timer = 0;
+
+function classNames(...classes) {
+  return classes.filter(Boolean).join(' ')
+}
 
 class Game extends React.Component {
   constructor() {
@@ -87,14 +92,20 @@ class Game extends React.Component {
   nextQuestion() {
     const { next } = this.state;
     return (
-      <button
-        type="button"
-        onClick={ this.nextQuestionState }
-        data-testid="btn-next"
-        style={ next ? { display: 'block' } : { display: 'none' } }
-      >
-        Próxima Pergunta
-      </button>
+      <div className="w-full flex justify-center">
+        <button
+          type="button"
+          onClick={this.nextQuestionState}
+          data-testid="btn-next"
+          className="group relative w-11/12 flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-60 my-4"
+          disabled={!next}
+        >
+          <span className="absolute left-0 inset-y-0 flex items-center pl-3">
+            <ArrowRightIcon className="h-5 w-5 text-white group-hover:text-indigo-200" aria-hidden="true" />
+          </span>
+          Próxima Pergunta
+        </button>
+      </div>
     );
   }
 
@@ -142,8 +153,8 @@ class Game extends React.Component {
       }
     }
     if (completed) start();
-    if (timer === 0) return (<span>Tempo acabou</span>)
-    return (<span>{timer}</span>);
+    if (timer === 0) return (<p className="text-center font-bold text-xl text-red-600">Tempo acabou</p>)
+    return (<p className={classNames(timer > 10 ? 'text-blue-800' : 'text-red-600', 'text-center font-bold text-2xl')}>{timer} s</p>);
   }
 
   timer() {
@@ -153,9 +164,7 @@ class Game extends React.Component {
         date={ Date.now() + TIMER }
         onComplete={ () => this.setState({ showAnswers: true, next: true }) }
         renderer={ this.updateTimer }
-      >
-        <span>Tempo acabou</span>
-      </Countdown>
+      />
     );
   }
 
@@ -169,7 +178,7 @@ class Game extends React.Component {
           type="button"
           name="correct"
           onClick={ this.handleClick }
-          className={ showAnswers ? 'game-correct' : null }
+          className={classNames(showAnswers ? 'bg-green-500 hover:bg-green-600 focus:ring-green-400' : 'bg-indigo-600 hover:bg-indigo-700 focus:ring-indigo-500', 'group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white focus:outline-none focus:ring-2 focus:ring-offset-2')}
           disabled={ showAnswers }
         >
           {this.formatText(answer)}
@@ -183,7 +192,7 @@ class Game extends React.Component {
         type="button"
         name="wrong"
         onClick={ this.handleClick }
-        className={ showAnswers ? 'game-incorrect' : null }
+        className={classNames(showAnswers ? 'bg-red-500 hover:bg-red-600 focus:ring-red-400' : 'bg-indigo-600 hover:bg-indigo-700 focus:ring-indigo-500', 'group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white focus:outline-none focus:ring-2 focus:ring-offset-2')}
         disabled={ showAnswers }
       >
         {this.formatText(answer)}
@@ -196,35 +205,27 @@ class Game extends React.Component {
     return (
       <>
         <Header />
-        <div className="min-h-full flex md:items-center md:justify-center py-12 px-4 sm:px-6 lg:px-8">
-          <div className="max-w-md w-full space-y-8 sm:border-solid sm:border-gray-200 sm:p-3 sm:border-2 sm:rounded-xl sm:shadow-md">
-
-          </div>
-          <div className="max-w-md w-full space-y-8 sm:border-solid sm:border-gray-200 sm:p-3 sm:border-2 sm:rounded-xl sm:shadow-md">
-
-          </div>
-        </div>
-
-
-
-
-        {questions.length === 0 || curQuestion - 1 >= questions.length
-          ? null
-          : (
-            <div>
-              <div>
-                <p data-testid="question-category">{result.category}</p>
-                <p data-testid="question-text">{this.formatText(result.question)}</p>
-                {
-                  result.alternatives.map((answer, id) => (
-                    this.renderButtons(answer, id, result.correct_answer)
-                  ))
-                }
+        <div className="min-h-full py-12 px-4 sm:px-6 lg:px-8 flex justify-center">
+          {questions.length === 0 || curQuestion - 1 >= questions.length
+            ? null
+            : (
+              <div className="lg:min-w-mincontainer md:min-w-mincontainersm flex flex-col md:flex-row items-center md:justify-center shadow-md rounded-xl border-solid border-gray-200 border-2">
+                <div className="min-w-md w-full md:h-container border-solid border-b-2 border-gray-200 md:border-r-2 md:border-b-0">
+                  <p data-testid="question-category" className="font-serif font-semibold text-xl text-purple-700 rounded-t-xl md:rounded-t-none md:rounded-tl-xl overflow-hidden bg-gradient-to-r from-indigo-50 to-indigo-100 text-center p-4">{result.category}</p>
+                  <p data-testid="question-text" className="mx-3 mt-2 h-16 font-mono antialiased leading-tight font-semibold overflow-auto">{this.formatText(result.question)}</p>
+                  {this.timer()}
+                  {this.nextQuestion()}
+                </div>
+                <div className="max-w-md w-full md:h-container flex flex-col items-center md:justify-center space-y-5 p-3">
+                  {
+                    result.alternatives.map((answer, id) => (
+                      this.renderButtons(answer, id, result.correct_answer)
+                    ))
+                  }
+                </div>
               </div>
-              {this.timer()}
-            </div>
-          )}
-        { this.nextQuestion() }
+            )}
+        </div>
       </>
     );
   }

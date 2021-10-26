@@ -15,7 +15,7 @@ class Header extends React.Component {
     return (
       <Popover className="relative bg-white">
         <header className="max-w-7xl mx-auto px-4 sm:px-6">
-          <div className="flex justify-between items-center border-b-2 border-gray-100 py-2 md:space-x-10">
+          <div className="flex justify-between items-center border-b-2 border-gray-100 py-2">
             <div className="flex justify-start lg:w-0 lg:flex-1">
               <span className="sr-only">Player image</span>
               <img
@@ -31,7 +31,7 @@ class Header extends React.Component {
                 <MenuIcon className="h-6 w-6" aria-hidden="true" />
               </Popover.Button>
             </div>
-            <div className="hidden md:flex space-x-10 lg:flex-1">
+            <div className="hidden md:flex md:ml-logosm lg:ml-logo lg:flex-1">
               <img src={logo} alt="Trivia IMG" className="h-8 w-auto justify-center"/>
             </div>
             <Popover.Group as="nav" className="hidden md:flex space-x-10 justify-end">
@@ -141,7 +141,7 @@ class Header extends React.Component {
           leaveFrom="opacity-100 scale-100"
           leaveTo="opacity-0 scale-95"
         >
-          <Popover.Panel focus className="absolute top-0 inset-x-0 p-2 transition transform origin-top-right md:hidden">
+          <Popover.Panel focus className="z-10 absolute top-0 inset-x-0 p-2 transition transform origin-top-right md:hidden">
             <div className="rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 bg-white divide-y-2 divide-gray-50">
               <div className="pt-5 pb-6 px-5">
                 <div className="flex items-center justify-between">
