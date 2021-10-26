@@ -5,8 +5,8 @@ module.exports = {
     extend: {
       spacing: {
         container: '240px',
-        logo: '100px',
-        logosm: '150px',
+        logo: '85px',
+        logosm: '140px',
       },
       minWidth: {
         mincontainer: '1000px',
