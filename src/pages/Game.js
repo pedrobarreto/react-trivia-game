@@ -134,11 +134,16 @@ class Game extends React.Component {
 
   updateTimer(props) {
     const { startCountdown } = this.state;
-    const { seconds } = props;
+    const { seconds, completed, api: { start } } = props;
     if (startCountdown) {
       timer = seconds;
+      if (completed) {
+        this.setState({ startCountdown: false });
+      }
     }
-    return (<div>{timer}</div>);
+    if (completed) start();
+    if (timer === 0) return (<span>Tempo acabou</span>)
+    return (<span>{timer}</span>);
   }
 
   timer() {
@@ -191,6 +196,18 @@ class Game extends React.Component {
     return (
       <>
         <Header />
+        <div className="min-h-full flex md:items-center md:justify-center py-12 px-4 sm:px-6 lg:px-8">
+          <div className="max-w-md w-full space-y-8 sm:border-solid sm:border-gray-200 sm:p-3 sm:border-2 sm:rounded-xl sm:shadow-md">
+
+          </div>
+          <div className="max-w-md w-full space-y-8 sm:border-solid sm:border-gray-200 sm:p-3 sm:border-2 sm:rounded-xl sm:shadow-md">
+
+          </div>
+        </div>
+
+
+
+
         {questions.length === 0 || curQuestion - 1 >= questions.length
           ? null
           : (
