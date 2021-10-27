@@ -7,18 +7,22 @@ import Game from './pages/Game';
 import Login from './pages/Login';
 import test from './pages/teste';
 import About from './pages/About';
+import Header from './components/Header';
 
 function App() {
   return (
-    <Switch>
-      <Route exact path="/" component={ Login } />
-      <Route exact path="/game" component={ Game } />
-      <Route exact path="/settings" component={ Config } />
-      <Route exact path="/feedback" component={ Feedback } />
-      <Route exact path="/ranking" component={ Ranking } />
-      <Route exact path="/teste" component={test} />
-      <Route exact path="/about" component={ About } />
-    </Switch>
+    <>
+      <Header />
+      <Switch>
+        <Route exact path="/" component={ Login } />
+        <Route exact path="/game" component={ Game } />
+        <Route exact path="/settings" component={ Config } />
+        <Route exact path="/feedback" component={ Feedback } />
+        <Route exact path="/ranking" component={ Ranking } />
+        <Route exact path="/teste" component={test} />
+        <Route exact path="/about" component={ About } />
+      </Switch>
+    </>
   );
 }
 

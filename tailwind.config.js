@@ -8,6 +8,9 @@ module.exports = {
         logo: '85px',
         logosm: '140px',
       },
+      maxWidth: {
+        mintablename: '250px',
+      },
       minWidth: {
         mincontainer: '1000px',
         mincontainersm: '740px',

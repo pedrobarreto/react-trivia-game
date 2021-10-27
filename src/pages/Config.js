@@ -85,91 +85,89 @@ class Config extends React.Component {
   render() {
     const { settings: { amount, difficulty, category, type }, categories } = this.state;
     return (
-      <>
-        <div className="min-h-full flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-          <div className="max-w-md w-full space-y-8 sm:border-solid sm:border-gray-200 sm:p-3 sm:border-2 sm:rounded-xl sm:shadow-md">
-            <div className="relative mt-3">
-              <img
-                className="mx-auto h-12 w-auto"
-                src={logo}
-                alt="Logo"
-              />
-              <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">Configurações</h2>
-            </div>
-            <form className="mt-8 space-y-6" onSubmit={this.handleSubmit}>
-              <input type="hidden" name="remember" defaultValue="true" />
-              <div className="rounded-md shadow-sm -space-y-px">
-                <div>
-                  <ListBox
-                    value={amount}
-                    name="amount"
-                    label="Quantidade de perguntas"
-                    curDisplay={amount}
-                    array={DEFAULT_NUMBER}
-                    onChange={this.handleChange}
-                  />
-                  <ListBox
-                    value={difficulty}
-                    name="difficulty"
-                    label="Dificuldade"
-                    curDisplay={DEFAULT_DIFFICULTY[difficulty]}
-                    array={[
-                      { name: 'Todas', id: 'Todas' },
-                      { name: 'Dificil', id: 'hard' },
-                      { name: 'Medio', id: 'medium' },
-                      { name: 'Facil', id: 'easy' },
-                    ]}
-                    onChange={this.handleChange}
-                  />
-                  <ListBox
-                    value={category}
-                    name="category"
-                    label="Categoria"
-                    curDisplay={categories.length > 0 ? categories.find((cur) => Number(cur.id) === category).name : 'Todas'}
-                    array={categories}
-                    onChange={this.handleChange}
-                  />
-                  <ListBox
-                    value={type}
-                    name="type"
-                    label="Tipo"
-                    curDisplay={DEFAULT_TYPES[type]}
-                    array={[
-                      { name: 'Todos', id: 'Todos' },
-                      { name: 'Multipla Escolha', id: 'multiple' },
-                      { name: 'Verdadeiro ou Falso', id: 'boolean' }
-                    ]}
-                    onChange={this.handleChange}
-                  />
-                </div>
-              </div>
-              <div>
-                <button
-                  type="button"
-                  className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 disabled:opacity-60 mb-1"
-                  data-testid="btn-play"
-                  onClick={this.resetDefault}
-                >
-                  <span className="absolute left-0 inset-y-0 flex items-center pl-3">
-                    <ShieldExclamationIcon className="h-5 w-5 text-white group-hover:text-red-200" aria-hidden="true" />
-                  </span>
-                  Resetar Configurações
-                </button>
-                <button
-                  type="submit"
-                  className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-60 mb-1"
-                  data-testid="btn-play"
-                >
-                  <span className="absolute left-0 inset-y-0 flex items-center pl-3">
-                    <SaveIcon className="h-5 w-5 text-white group-hover:text-indigo-200" aria-hidden="true" />
-                  </span>
-                  Salvar
-                </button>
-              </div>
-            </form>
+      <div className="min-h-full flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-md w-full space-y-8 sm:border-solid sm:border-gray-200 sm:p-3 sm:border-2 sm:rounded-xl sm:shadow-md">
+          <div className="relative mt-3">
+            <img
+              className="mx-auto h-12 w-auto"
+              src={logo}
+              alt="Logo"
+            />
+            <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">Configurações</h2>
           </div>
+          <form className="mt-8 space-y-6" onSubmit={this.handleSubmit}>
+            <input type="hidden" name="remember" defaultValue="true" />
+            <div className="rounded-md shadow-sm -space-y-px">
+              <div>
+                <ListBox
+                  value={amount}
+                  name="amount"
+                  label="Quantidade de perguntas"
+                  curDisplay={amount}
+                  array={DEFAULT_NUMBER}
+                  onChange={this.handleChange}
+                />
+                <ListBox
+                  value={difficulty}
+                  name="difficulty"
+                  label="Dificuldade"
+                  curDisplay={DEFAULT_DIFFICULTY[difficulty]}
+                  array={[
+                    { name: 'Todas', id: 'Todas' },
+                    { name: 'Dificil', id: 'hard' },
+                    { name: 'Medio', id: 'medium' },
+                    { name: 'Facil', id: 'easy' },
+                  ]}
+                  onChange={this.handleChange}
+                />
+                <ListBox
+                  value={category}
+                  name="category"
+                  label="Categoria"
+                  curDisplay={categories.length > 0 ? categories.find((cur) => Number(cur.id) === category).name : 'Todas'}
+                  array={categories}
+                  onChange={this.handleChange}
+                />
+                <ListBox
+                  value={type}
+                  name="type"
+                  label="Tipo"
+                  curDisplay={DEFAULT_TYPES[type]}
+                  array={[
+                    { name: 'Todos', id: 'Todos' },
+                    { name: 'Multipla Escolha', id: 'multiple' },
+                    { name: 'Verdadeiro ou Falso', id: 'boolean' }
+                  ]}
+                  onChange={this.handleChange}
+                />
+              </div>
+            </div>
+            <div>
+              <button
+                type="button"
+                className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 disabled:opacity-60 mb-1"
+                data-testid="btn-play"
+                onClick={this.resetDefault}
+              >
+                <span className="absolute left-0 inset-y-0 flex items-center pl-3">
+                  <ShieldExclamationIcon className="h-5 w-5 text-white group-hover:text-red-200" aria-hidden="true" />
+                </span>
+                Resetar Configurações
+              </button>
+              <button
+                type="submit"
+                className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-60 mb-1"
+                data-testid="btn-play"
+              >
+                <span className="absolute left-0 inset-y-0 flex items-center pl-3">
+                  <SaveIcon className="h-5 w-5 text-white group-hover:text-indigo-200" aria-hidden="true" />
+                </span>
+                Salvar
+              </button>
+            </div>
+          </form>
         </div>
-      </>
+      </div>
     );
   }
 }

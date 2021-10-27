@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import Countdown from 'react-countdown';
 import PropTypes from 'prop-types';
-import Header from '../components/Header';
 import { fetchQuestions } from '../services';
 import { ArrowRightIcon } from '@heroicons/react/outline';
 import { saveScoreInStorage, addRanking, generateInfos } from '../utils/localStorage';
@@ -203,30 +202,27 @@ class Game extends React.Component {
     const { questions, curQuestion } = this.state;
     const result = questions[curQuestion];
     return (
-      <>
-        <Header />
-        <div className="min-h-full py-12 px-4 sm:px-6 lg:px-8 flex justify-center">
-          {questions.length === 0 || curQuestion - 1 >= questions.length
-            ? null
-            : (
-              <div className="lg:min-w-mincontainer md:min-w-mincontainersm flex flex-col md:flex-row items-center md:justify-center shadow-md rounded-xl border-solid border-gray-200 border-2">
-                <div className="min-w-md w-full md:h-container border-solid border-b-2 border-gray-200 md:border-r-2 md:border-b-0">
-                  <p data-testid="question-category" className="font-serif font-semibold text-xl text-purple-700 rounded-t-xl md:rounded-t-none md:rounded-tl-xl overflow-hidden bg-gradient-to-r from-indigo-50 to-indigo-100 text-center p-4">{result.category}</p>
-                  <p data-testid="question-text" className="mx-3 mt-2 h-16 font-mono antialiased leading-tight font-semibold overflow-auto">{this.formatText(result.question)}</p>
-                  {this.timer()}
-                  {this.nextQuestion()}
-                </div>
-                <div className="max-w-md w-full md:h-container flex flex-col items-center md:justify-center space-y-5 p-3">
-                  {
-                    result.alternatives.map((answer, id) => (
-                      this.renderButtons(answer, id, result.correct_answer)
-                    ))
-                  }
-                </div>
+      <div className="min-h-full py-12 px-4 sm:px-6 lg:px-8 flex justify-center">
+        {questions.length === 0 || curQuestion - 1 >= questions.length
+          ? null
+          : (
+            <div className="lg:min-w-mincontainer md:min-w-mincontainersm flex flex-col md:flex-row items-center md:justify-center shadow-md rounded-xl border-solid border-gray-200 border-2">
+              <div className="min-w-md w-full md:h-container border-solid border-b-2 border-gray-200 md:border-r-2 md:border-b-0">
+                <p data-testid="question-category" className="font-serif font-semibold text-xl text-purple-700 rounded-t-xl md:rounded-t-none md:rounded-tl-xl overflow-hidden bg-gradient-to-r from-indigo-50 to-indigo-100 text-center p-4">{result.category}</p>
+                <p data-testid="question-text" className="mx-3 mt-2 h-16 font-mono antialiased leading-tight font-semibold overflow-auto">{this.formatText(result.question)}</p>
+                {this.timer()}
+                {this.nextQuestion()}
               </div>
-            )}
-        </div>
-      </>
+              <div className="max-w-md w-full md:h-container flex flex-col items-center md:justify-center space-y-5 p-3">
+                {
+                  result.alternatives.map((answer, id) => (
+                    this.renderButtons(answer, id, result.correct_answer)
+                  ))
+                }
+              </div>
+            </div>
+          )}
+      </div>
     );
   }
 }
