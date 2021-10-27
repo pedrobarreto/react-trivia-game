@@ -1,7 +1,7 @@
 import { LOGIN_INFO, SET_SCORE } from '../actions/types';
 
 const INITIAL_STATE = {
-  name: '',
+  name: 'Default User',
   email: '',
   assertions: 0,
   score: 0,

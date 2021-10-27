@@ -27,12 +27,13 @@ export const saveScoreInStorage = (assertions = 0, score = 0) => {
 };
 
 export function generateInfos() {
+  if (!localStorage[STATE]) return { name: 'Default User', score: 0, hash: '', assertions: 0 }
   const { player: {
     name,
     email,
     score,
     assertions,
-  } } = JSON.parse(localStorage.getItem('state'));
+  } } = JSON.parse(localStorage.getItem(STATE));
   const hash = md5(email).toString();
   return { name, score, hash, assertions };
 }
