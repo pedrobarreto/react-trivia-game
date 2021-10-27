@@ -5,8 +5,8 @@ module.exports = {
     extend: {
       spacing: {
         container: '240px',
-        logo: '175px',
-        logosm: '225px',
+        logo: '190px',
+        logosm: '245px',
       },
       maxWidth: {
         mintablename: '250px',

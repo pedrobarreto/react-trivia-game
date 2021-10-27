@@ -7,6 +7,7 @@ import { ArrowRightIcon } from '@heroicons/react/outline';
 import { saveScoreInStorage, addRanking, generateInfos } from '../utils/localStorage';
 import { setScore as setScoreAction } from '../actions';
 import '../style/game.css';
+import { Link } from 'react-router-dom';
 
 const TIMER = 30000;
 const ONE_SECOND = 1000;
@@ -57,6 +58,7 @@ class Game extends React.Component {
       );
       return res;
     });
+    if (questions.length === 0) return;
     this.setState({
       questions,
       difficulty: questions[0].difficulty,
@@ -204,12 +206,12 @@ class Game extends React.Component {
     return (
       <div className="min-h-full py-12 px-4 sm:px-6 lg:px-8 flex justify-center">
         {questions.length === 0 || curQuestion - 1 >= questions.length
-          ? null
+          ? <div className="lg:min-w-mincontainer md:min-w-mincontainersm flex flex-col md:flex-row items-center md:justify-center shadow-md rounded-xl border-solid border-gray-200 border-2 font-serif font-bold text-xl py-6">Nao foi possivel encontrar questoes, arrume as<Link to="/settings" className="ml-2 text-blue-700 underline">Configurações</Link></div>
           : (
             <div className="lg:min-w-mincontainer md:min-w-mincontainersm flex flex-col md:flex-row items-center md:justify-center shadow-md rounded-xl border-solid border-gray-200 border-2">
               <div className="min-w-md w-full md:h-container border-solid border-b-2 border-gray-200 md:border-r-2 md:border-b-0">
                 <p data-testid="question-category" className="font-serif font-semibold text-xl text-purple-700 rounded-t-xl md:rounded-t-none md:rounded-tl-xl overflow-hidden bg-gradient-to-r from-indigo-50 to-indigo-100 text-center p-4">{result.category}</p>
-                <p data-testid="question-text" className="mx-3 mt-2 h-16 font-mono antialiased leading-tight font-semibold overflow-auto">{this.formatText(result.question)}</p>
+                <p data-testid="question-text" className="mx-3 mt-2 md:h-16 font-mono antialiased leading-tight font-semibold overflow-auto">{this.formatText(result.question)}</p>
                 {this.timer()}
                 {this.nextQuestion()}
               </div>
