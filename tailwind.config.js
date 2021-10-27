@@ -5,11 +5,12 @@ module.exports = {
     extend: {
       spacing: {
         container: '240px',
-        logo: '85px',
-        logosm: '140px',
+        logo: '175px',
+        logosm: '225px',
       },
       maxWidth: {
         mintablename: '250px',
+        headersmall: '250px',
       },
       minWidth: {
         mincontainer: '1000px',

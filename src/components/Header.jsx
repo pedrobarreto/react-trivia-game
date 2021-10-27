@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react';
+import { Link } from 'react-router-dom';
 import { generateInfos } from '../utils/localStorage';
 import { Popover, Transition } from '@headlessui/react'
 import { UsersIcon, MenuIcon, PresentationChartLineIcon, XIcon, CheckCircleIcon } from '@heroicons/react/outline';
@@ -69,7 +70,7 @@ class Header extends React.Component {
                             <div className="-m-3 p-3 flex items-start rounded-lg hover:bg-gray-50">
                               <UsersIcon className="flex-shrink-0 h-6 w-6 text-indigo-600" aria-hidden="true" />
                               <div className="ml-4">
-                                <p className="text-base font-medium text-gray-900">{name}</p>
+                                <p className="max-w-xs truncate text-base font-medium text-gray-900">{name}</p>
                               </div>
                             </div>
                           </div>
@@ -129,6 +130,9 @@ class Header extends React.Component {
                   </>
                 )}
               </Popover>
+              <Link to="/about" className="text-gray-500 bg-white rounded-md inline-flex items-center text-base font-medium hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                Sobre
+              </Link>
             </Popover.Group>
           </div>
         </header>
@@ -172,7 +176,7 @@ class Header extends React.Component {
                   <nav className="grid gap-y-8">
                     <div className="-m-3 p-3 flex items-center rounded-md hover:bg-gray-50">
                       <UsersIcon className="flex-shrink-0 h-6 w-6 text-indigo-600" aria-hidden="true" />
-                      <span className="ml-3 text-base font-medium text-gray-900">{name}</span>
+                      <span className="max-w-headersmall sm:max-w-sm md:max-w-md truncate ml-3 text-base font-medium text-gray-900">{name}</span>
                     </div>
                     <div className="-m-3 p-3 flex items-center rounded-md hover:bg-gray-50">
                       <PresentationChartLineIcon className="flex-shrink-0 h-6 w-6 text-indigo-600" aria-hidden="true" />
