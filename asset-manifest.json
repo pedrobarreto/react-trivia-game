@@ -1,21 +1,22 @@
 {
   "files": {
-    "main.css": "/trivia-react-redux/static/css/main.9e6c21cd.chunk.css",
-    "main.js": "/trivia-react-redux/static/js/main.c50bb622.chunk.js",
-    "main.js.map": "/trivia-react-redux/static/js/main.c50bb622.chunk.js.map",
-    "runtime-main.js": "/trivia-react-redux/static/js/runtime-main.86a1bb20.js",
-    "runtime-main.js.map": "/trivia-react-redux/static/js/runtime-main.86a1bb20.js.map",
-    "static/js/2.6c89a4df.chunk.js": "/trivia-react-redux/static/js/2.6c89a4df.chunk.js",
-    "static/js/2.6c89a4df.chunk.js.map": "/trivia-react-redux/static/js/2.6c89a4df.chunk.js.map",
-    "index.html": "/trivia-react-redux/index.html",
-    "static/css/main.9e6c21cd.chunk.css.map": "/trivia-react-redux/static/css/main.9e6c21cd.chunk.css.map",
-    "static/js/2.6c89a4df.chunk.js.LICENSE.txt": "/trivia-react-redux/static/js/2.6c89a4df.chunk.js.LICENSE.txt",
-    "static/media/trivia.7e9181d3.png": "/trivia-react-redux/static/media/trivia.7e9181d3.png"
+    "main.css": "gabrielferreirasl.github.io/trivia/static/css/main.fe8c0f99.chunk.css",
+    "main.js": "gabrielferreirasl.github.io/trivia/static/js/main.49ee3866.chunk.js",
+    "main.js.map": "gabrielferreirasl.github.io/trivia/static/js/main.49ee3866.chunk.js.map",
+    "runtime-main.js": "gabrielferreirasl.github.io/trivia/static/js/runtime-main.bf17db6c.js",
+    "runtime-main.js.map": "gabrielferreirasl.github.io/trivia/static/js/runtime-main.bf17db6c.js.map",
+    "static/js/2.9709ce2c.chunk.js": "gabrielferreirasl.github.io/trivia/static/js/2.9709ce2c.chunk.js",
+    "static/js/2.9709ce2c.chunk.js.map": "gabrielferreirasl.github.io/trivia/static/js/2.9709ce2c.chunk.js.map",
+    "index.html": "gabrielferreirasl.github.io/trivia/index.html",
+    "precache-manifest.311e80d89c75d209a83a44be3c3effb3.js": "gabrielferreirasl.github.io/trivia/precache-manifest.311e80d89c75d209a83a44be3c3effb3.js",
+    "service-worker.js": "gabrielferreirasl.github.io/trivia/service-worker.js",
+    "static/css/main.fe8c0f99.chunk.css.map": "gabrielferreirasl.github.io/trivia/static/css/main.fe8c0f99.chunk.css.map",
+    "static/js/2.9709ce2c.chunk.js.LICENSE": "gabrielferreirasl.github.io/trivia/static/js/2.9709ce2c.chunk.js.LICENSE"
   },
   "entrypoints": [
-    "static/js/runtime-main.86a1bb20.js",
-    "static/js/2.6c89a4df.chunk.js",
-    "static/css/main.9e6c21cd.chunk.css",
-    "static/js/main.c50bb622.chunk.js"
+    "static/js/runtime-main.bf17db6c.js",
+    "static/js/2.9709ce2c.chunk.js",
+    "static/css/main.fe8c0f99.chunk.css",
+    "static/js/main.49ee3866.chunk.js"
   ]
 }
