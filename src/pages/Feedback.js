@@ -44,7 +44,7 @@ class Feedback extends React.Component {
                 data-testid="feedback-total-score">Score: {score}</p>
               </div>
               <div className="mt-5">
-                <Link to="/">
+                <Link to="/react-trivia-game">
                   <button data-testid="btn-play-again" type="button" className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-60 mb-3">
                     <span className="absolute left-0 inset-y-0 flex items-center pl-3">
                       <PlayIcon className="h-5 w-5 text-white group-hover:text-indigo-200" aria-hidden="true" />

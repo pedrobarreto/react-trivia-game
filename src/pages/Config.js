@@ -71,7 +71,7 @@ class Config extends React.Component {
   resetDefault() {
     const { resetConfig, history } = this.props;
     resetConfig();
-    history.push('/');
+    history.push('/react-trivia-game');
   }
 
   handleSubmit(event) {
