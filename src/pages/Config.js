@@ -79,7 +79,7 @@ class Config extends React.Component {
     const { settings } = this.state;
     const { setSettings, history } = this.props;
     setSettings(settings);
-    history.push('/');
+    history.push('/react-trivia-game');
   }
 
   render() {

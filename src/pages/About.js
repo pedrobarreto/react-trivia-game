@@ -111,7 +111,7 @@ class About extends React.Component {
             </div>
           </div>
         </div>
-        <Link to="/" className="w-full flex justify-center mt-6">
+        <Link to="/react-trivia-game" className="w-full flex justify-center mt-6">
           <button data-testid="btn-play-again" type="button" className="group relative w-3/4 flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-60 mb-10">
             <span className="absolute left-0 inset-y-0 flex items-center pl-3">
               <PlayIcon className="h-5 w-5 text-white group-hover:text-indigo-200" aria-hidden="true" />
